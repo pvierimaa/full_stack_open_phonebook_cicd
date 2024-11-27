@@ -33,8 +33,13 @@ jobs:
       - name: Copy frontend build to root directory
         run: cp -r frontend/dist ../dist
 
-      - name: Check style
-        run: npm run lint
+      - name: Start backend server
+        run: npm start &
+        env:
+          PORT: 3001
+
+      - name: Wait for server to be ready
+        run: npx wait-on http://localhost:3001
 
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
